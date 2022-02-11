@@ -1,5 +1,5 @@
 # Cryptopedia_PetProject
-A basic project with CRUD and and Authentication functionalities
+A basic project with CRUD and Authentication functionalities
 
 The next steps for this app are:
 
