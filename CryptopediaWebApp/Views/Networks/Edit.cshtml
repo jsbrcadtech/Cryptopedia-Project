@@ -1,0 +1,24 @@
+﻿@model CryptopediaWebApp.Models.NetworksDto
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Update Network</h2>
+<form action="/Networks/Update/@Model.NetworksID" method="POST">
+    <div style="display:none;">
+        @* Pass through the Networks ID *@
+        <input type="text" name="NetworksID" value="@Model.NetworksID" />
+    </div>
+    <div>
+        <label>Name:</label> <input type="text" name="NetworksName" value="@Model.NetworksName" />
+    </div>
+    <div>
+        <label>Standard:</label> <input type="text" name="NetworksStandard" value="@Model.NetworksStandard" />
+    </div>
+ 
+    <div>
+        <input type="submit" value="Update Networks" />
+
+    </div>
+</form>

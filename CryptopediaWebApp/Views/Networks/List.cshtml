@@ -1,0 +1,14 @@
+﻿@model IEnumerable<CryptopediaWebApp.Models.NetworksDto>
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List</h2>
+<a href="/Networks/New">New Networks</a>
+@foreach (var Networks in Model)
+{
+    <h2><a href="/Networks/Details/@Networks.NetworksID">@Networks.NetworksName</a></h2>
+    <div>Network Standard: @Networks.NetworksStandard</div>
+
+}
+

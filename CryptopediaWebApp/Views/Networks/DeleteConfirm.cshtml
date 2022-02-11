@@ -1,0 +1,15 @@
+﻿@model CryptopediaWebApp.Models.NetworksDto
+
+@{
+    ViewBag.Title = "DeleteConfirm";
+}
+
+<h2>Are you sure you want to delete this Species?</h2>
+<a href="/Networks/List">Cancel</a>
+<h3>Name: @Model.NetworksName</h3>
+
+<p>Networks Standard: @Model.NetworksStandard</p>
+<form action="/Networks/Delete/@Model.NetworksID" method="POST">
+    <input type="submit" value="Confirm Delete" />
+</form>
+

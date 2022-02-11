@@ -1,0 +1,33 @@
+﻿@model IEnumerable<CryptopediaWebApp.Models.NetworksDto>
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create a token</h2>
+<form action="/Token/Create" method="POST">
+    <div>
+        <label>Name:</label><input type="text" name="TokenName" />
+    </div>
+    <div>
+        <label>Token Creation Year:</label> <input type="number" name="TokenCreationYear" />
+</div>
+    <div>
+        <label>Description:</label><input type="text" name="TokenDescription" />
+    </div>
+    <div>
+        <label>Network Standard:</label>
+        <select name="NetworksID">
+            @foreach (var networks in Model)
+            {
+                <option value="@networks.NetworksID">@networks.NetworksName</option>
+
+            }
+        </select>
+    </div>
+    <div>
+        <input type="submit" value="Add Token" />
+    </div>
+
+</form>
+

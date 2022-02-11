@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create Networks</h2>
+<form action="/Networks/Create" method="POST">
+    <div>
+        <label>Name:</label> <input type="text" name="NetworksName" />
+    </div>
+    <div>
+        <label>Networks Standard:</label>
+        <input type="text" name="NetworksStandard"/>
+    </div>
+    <div>
+        <input type="submit" value="Create Networks" />
+    </div>
+</form>

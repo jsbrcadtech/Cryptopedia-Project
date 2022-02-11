@@ -1,0 +1,41 @@
+﻿@model CryptopediaWebApp.Models.ViewModels.UpdateToken
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Update Token</h2>
+<form action="/Token/Update/@Model.SelectedToken.TokenID" method="POST">
+    <div style="display:none;">
+        @* Pass through the token ID *@
+        <input type="text" name="TokenID" value="@Model.SelectedToken.TokenID" />
+    </div>
+    <div>
+        <label>Name:</label> <input type="text" name="TokenName" value="@Model.SelectedToken.TokenName" />
+    </div>
+        <div>
+        <label>Token Creation Year:</label> <input type="number" name="TokenCreationYear" value="@Model.SelectedToken.TokenCreationYear" />
+    </div>
+    <div>
+        <label>Token Description:</label> <input type="text" name="TokenDescription" value="@Model.SelectedToken.TokenDescription" />
+    </div>
+    <div>
+        <label>Network Standard:</label>
+
+        <select name="NetworksID">
+            @foreach (var networks in Model.NetworksOptions)
+            {
+                string selected = "";
+                if (networks.NetworksID == Model.SelectedToken.NetworksID)
+                {
+                    selected = "selected";
+                }
+                <option value="@networks.NetworksID" @selected>@networks.NetworksName</option>
+
+            }
+        </select>
+    </div>
+    <div>
+        <input type="submit" value="Update Token" />
+
+    </div>
+</form>

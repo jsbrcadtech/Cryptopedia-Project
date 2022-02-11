@@ -1,0 +1,24 @@
+﻿@model CryptopediaWebApp.Models.ViewModels.DetailsNetworks
+
+
+@{
+    ViewBag.Title = "View";
+}
+
+<a href="/Networks/List">Go back to list</a>
+<br />
+<a href="/Networks/Edit/@Model.SelectedNetworks.NetworksID">Update</a>
+<br />
+<a style="color:darkred;" href="/Networks/DeleteConfirm/@Model.SelectedNetworks.NetworksID">Delete</a>
+<h2>@Model.SelectedNetworks.NetworksName</h2>
+<div>Standard: @Model.SelectedNetworks.NetworksStandard</div>
+
+
+<div style="margin-top:100px;">
+    <h3>Tokens related to this network</h3>
+    @foreach (var token in Model.RelatedTokens)
+    {
+        <a href="/Token/Details/@token.TokenID">@token.TokenName</a>
+
+    }
+</div>

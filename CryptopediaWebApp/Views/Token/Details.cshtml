@@ -1,0 +1,24 @@
+﻿@model CryptopediaWebApp.Models.ViewModels.DetailsToken
+
+
+@{
+    ViewBag.Title = "Details";
+}
+<a href="/Token/List">Go back to list</a>
+<br />
+<a href="/Token/Edit/@Model.SelectedToken.TokenID">Update</a>
+<br />
+<a style="color:darkred;" href="/Token/DeleteConfirm/@Model.SelectedToken.TokenID">Delete</a>
+<h2>@Model.SelectedToken.TokenName</h2>
+<div>Token Creation Year: @Model.SelectedToken.TokenCreationYear</div>
+<div>Token Description: @Model.SelectedToken.TokenDescription</div>
+<div>
+    
+    Network Standard: @Model.SelectedToken.NetworksStandard
+    
+</div>
+
+
+
+
+

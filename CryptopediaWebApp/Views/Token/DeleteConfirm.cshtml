@@ -1,0 +1,18 @@
+﻿@model CryptopediaWebApp.Models.TokenDto
+
+@{
+    ViewBag.Title = "DeleteConfirm";
+}
+
+<h2>Are you sure you want to delete this token?</h2>
+<a href="/Token/List">Cancel</a>
+<h2>@Model.TokenName</h2>
+
+<div>Token Creation Year: @Model.TokenCreationYear</div>
+<div>Token Description: @Model.TokenDescription</div>
+<div>Network Standard: @Model.NetworksStandard</div>
+
+<form action="/Token/Delete/@Model.TokenID" method="POST">
+    <input type="submit" value="Confirm Delete" />
+</form>
+
