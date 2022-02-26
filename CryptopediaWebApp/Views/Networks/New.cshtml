@@ -3,16 +3,27 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create Networks</h2>
-<form action="/Networks/Create" method="POST">
-    <div>
-        <label>Name:</label> <input type="text" name="NetworksName" />
-    </div>
-    <div>
-        <label>Networks Standard:</label>
-        <input type="text" name="NetworksStandard"/>
-    </div>
-    <div>
-        <input type="submit" value="Create Networks" />
-    </div>
-</form>
+<h2>Create Network</h2>
+
+<div class="form-box">
+    <form action="/Networks/Create" method="POST">
+        <div class="field-container"><label>Name:</label><input type="text" name="NetworksName" class="field-container__input-box" /></div>
+        <div class="field-container"><label>Standard:</label><input type="text" name="NetworksStandard" class="field-container__input-box" /></div>
+        <div><input type="submit" value="Create Networks" /></div>
+    </form>
+</div>
+
+
+
+    @*<form action="/Networks/Create" method="POST">
+            <div>
+                <label>Name:</label> <input type="text" name="NetworksName" />
+            </div>
+            <div>
+                <label>Networks Standard:</label>
+                <input type="text" name="NetworksStandard" />
+            </div>
+            <div>
+                <input type="submit" value="Create Networks" />
+            </div>
+        </form>*@

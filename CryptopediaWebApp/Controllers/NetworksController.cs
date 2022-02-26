@@ -18,8 +18,35 @@ namespace CryptopediaWebApp.Controllers
 
         static NetworksController()
         {
-            client = new HttpClient();
+            HttpClientHandler handler = new HttpClientHandler()
+            {
+                AllowAutoRedirect = false,
+                //cookies are manually set in RequestHeader
+                UseCookies = false
+            };
+
+            client = new HttpClient(handler);
             client.BaseAddress = new Uri("https://localhost:44311/api/");
+        }
+
+        /// <summary>
+        /// Grabs the authentication cookie sent to this controller.
+        /// </summary>
+        private void GetApplicationCookie()
+        {
+            string token = "";
+            client.DefaultRequestHeaders.Remove("Cookie");
+            if (!User.Identity.IsAuthenticated) return;
+
+            HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies.Get(".AspNet.ApplicationCookie");
+            if (cookie != null) token = cookie.Value;
+
+            //Gets token as it's submitted to the controller
+            //Uses it to pass over to the WebAPI.
+            Debug.WriteLine("Token Submitted is : " + token);
+            if (token != "") client.DefaultRequestHeaders.Add("Cookie", ".AspNet.ApplicationCookie=" + token);
+
+            return;
         }
 
         // GET: Networks/List
@@ -27,7 +54,6 @@ namespace CryptopediaWebApp.Controllers
         {
             //objective: communicate with our Networks data api to retrieve a list of Networks
             //curl https://localhost:44324/api/Networksdata/listNetworkss
-
 
             string url = "networksdata/listnetworks";
             HttpResponseMessage response = client.GetAsync(url).Result;
@@ -88,10 +114,12 @@ namespace CryptopediaWebApp.Controllers
             return View();
         }
 
-        // POST: Species/Create
+        // POST: Networks/Create
         [HttpPost]
+        [Authorize]
         public ActionResult Create(Networks Networks)
         {
+            GetApplicationCookie();
             //Debug.WriteLine("the json payload is :");
             //Debug.WriteLine(Networks.NetworksName);
             //objective: add a new Networks into our system using the API
@@ -117,6 +145,7 @@ namespace CryptopediaWebApp.Controllers
         }
 
         // GET: Networks/Edit/2
+        [Authorize]
         public ActionResult Edit(int id)
         {
             string url = "networksdata/findnetworks/" + id;
@@ -127,9 +156,10 @@ namespace CryptopediaWebApp.Controllers
 
         // POST: Networks/Update/2
         [HttpPost]
+        [Authorize]
         public ActionResult Update(int id, Networks Networks)
         {
-
+            GetApplicationCookie(); //Gets authentication token credentials 
             string url = "networksdata/updatenetworks/" + id;
             string jsonpayload = jss.Serialize(Networks);
             HttpContent content = new StringContent(jsonpayload);
@@ -147,6 +177,7 @@ namespace CryptopediaWebApp.Controllers
         }
 
         // GET: Networks/Delete/5
+        [Authorize]
         public ActionResult DeleteConfirm(int id)
         {
             string url = "networksdata/findnetworks/" + id;
@@ -157,8 +188,10 @@ namespace CryptopediaWebApp.Controllers
 
         // POST: Networks/Delete/5
         [HttpPost]
+        [Authorize]
         public ActionResult Delete(int id)
         {
+            GetApplicationCookie(); //Gets authentication token credentials 
             string url = "networksdata/deletenetworks/" + id;
             HttpContent content = new StringContent("");
             content.Headers.ContentType.MediaType = "application/json";

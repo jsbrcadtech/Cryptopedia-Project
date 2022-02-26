@@ -19,13 +19,38 @@ namespace CryptopediaWebApp.Controllers
 
         static TokenController()
         {
-            client = new HttpClient();
-            client.BaseAddress = new Uri("https://localhost:44311/api/");
-        }     
-        
-        
-        // GET: Token/List
+            HttpClientHandler handler = new HttpClientHandler()
+            {
+                AllowAutoRedirect = false,
+                //cookies are manually set in RequestHeader
+                UseCookies = false
+            };
 
+            client = new HttpClient(handler);
+            client.BaseAddress = new Uri("https://localhost:44311/api/");
+        }
+
+        /// <summary>
+        /// Grabs the authentication cookie sent to this controller.
+        /// </summary>
+        private void GetApplicationCookie()
+        {
+            string token = "";
+            client.DefaultRequestHeaders.Remove("Cookie");
+            if (!User.Identity.IsAuthenticated) return;
+
+            HttpCookie cookie = System.Web.HttpContext.Current.Request.Cookies.Get(".AspNet.ApplicationCookie");
+            if (cookie != null) token = cookie.Value;
+
+            //Gets token as it's submitted to the controller
+            //Uses it to pass over to the WebAPI.
+            Debug.WriteLine("Token Submitted is : " + token);
+            if (token != "") client.DefaultRequestHeaders.Add("Cookie", ".AspNet.ApplicationCookie=" + token);
+
+            return;
+        }
+
+        // GET: Token/List
         public ActionResult List()
         {
             //Objective: Communicate with token data api to retrieve a list of tokens
@@ -86,10 +111,12 @@ namespace CryptopediaWebApp.Controllers
 
         // POST: Token/Create
         [HttpPost]
+        [Authorize]
         public ActionResult Create(Token token)
         {
-            Debug.WriteLine("the jsonpayload is:");
-            Debug.WriteLine(token.TokenName);
+            GetApplicationCookie();
+            //Debug.WriteLine("the jsonpayload is:");
+            //Debug.WriteLine(token.TokenName);
             //Objective: Add a new token into the system using the API 
             //curl -H "Content-Type:application/json" -d @token.json https://localhost:44311/api/tokendata/addtoken
             string url = "tokendata/addtoken";
@@ -114,6 +141,7 @@ namespace CryptopediaWebApp.Controllers
         }
 
         // GET: Token/Edit/5
+        [Authorize]
         public ActionResult Edit(int id)
         {
             UpdateToken ViewModel = new UpdateToken();
@@ -137,9 +165,10 @@ namespace CryptopediaWebApp.Controllers
 
         // POST: Token/Update/5
         [HttpPost]
+        [Authorize]
         public ActionResult Update(int id, Token token)
         {
-
+            GetApplicationCookie(); //Gets authentication token credentials 
             string url = "tokendata/updatetoken/" + id;
             string jsonpayload = jss.Serialize(token);
             HttpContent content = new StringContent(jsonpayload);
@@ -157,6 +186,7 @@ namespace CryptopediaWebApp.Controllers
         }
 
         // GET: Token/Delete/5
+        [Authorize]
         public ActionResult DeleteConfirm(int id)
         {
             string url = "tokendata/findtoken/" + id;
@@ -165,9 +195,12 @@ namespace CryptopediaWebApp.Controllers
             return View(selectedtoken);
         }
 
-        // GET: Token/Delete/5
+        // POST: Token/Delete/5
+        [HttpPost]
+        [Authorize]
         public ActionResult Delete(int id)
         {
+            GetApplicationCookie(); //Gets authentication token credentials 
             string url = "tokendata/deletetoken/" + id;
             HttpContent content = new StringContent("");
             content.Headers.ContentType.MediaType = "application/json";

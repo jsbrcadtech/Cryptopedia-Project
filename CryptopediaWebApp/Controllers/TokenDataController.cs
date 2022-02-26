@@ -95,7 +95,7 @@ namespace CryptopediaWebApp.Controllers
         // Post: api/TokenData/UpdateToken/5
         [ResponseType(typeof(void))]
         [HttpPost]
-
+        [Authorize]
         public IHttpActionResult UpdateToken(int id, Token token)
         {
             if (!ModelState.IsValid)
@@ -132,6 +132,7 @@ namespace CryptopediaWebApp.Controllers
         // POST: api/TokenData/AddToken
         [HttpPost]
         [ResponseType(typeof(Token))]
+        [Authorize]
         public IHttpActionResult AddToken(Token token)
         {
             if (!ModelState.IsValid)
@@ -160,6 +161,7 @@ namespace CryptopediaWebApp.Controllers
         /// </example>
         [ResponseType(typeof(Token))]
         [HttpPost]
+        [Authorize]
         public IHttpActionResult DeleteToken(int id)
         {
             Token token = db.Tokens.Find(id);

@@ -4,38 +4,43 @@
 }
 
 <h2>Update Token</h2>
-<form action="/Token/Update/@Model.SelectedToken.TokenID" method="POST">
-    <div style="display:none;">
-        @* Pass through the token ID *@
-        <input type="text" name="TokenID" value="@Model.SelectedToken.TokenID" />
-    </div>
-    <div>
-        <label>Name:</label> <input type="text" name="TokenName" value="@Model.SelectedToken.TokenName" />
-    </div>
-        <div>
-        <label>Token Creation Year:</label> <input type="number" name="TokenCreationYear" value="@Model.SelectedToken.TokenCreationYear" />
-    </div>
-    <div>
-        <label>Token Description:</label> <input type="text" name="TokenDescription" value="@Model.SelectedToken.TokenDescription" />
-    </div>
-    <div>
-        <label>Network Standard:</label>
 
-        <select name="NetworksID">
-            @foreach (var networks in Model.NetworksOptions)
-            {
-                string selected = "";
-                if (networks.NetworksID == Model.SelectedToken.NetworksID)
+<div class="form-box">
+
+    <form action="/Token/Update/@Model.SelectedToken.TokenID" method="POST">
+
+        <div style="display:none">
+            @* Pass through the token ID *@
+            <input type="text" name="TokenID" value="@Model.SelectedToken.TokenID" />
+        </div>
+        <div class="field-container">
+            <label>Name:</label> <input type="text" name="TokenName" value="@Model.SelectedToken.TokenName" class="field-container__input-box" />
+        </div>
+        <div class="field-container">
+            <label>Token Creation Year:</label> <input type="number" name="TokenCreationYear" value="@Model.SelectedToken.TokenCreationYear" class="field-container__input-box" />
+        </div>
+        <div class="field-container">
+            <label>Network Standard:</label>
+
+            <select name="NetworksID">
+                @foreach (var networks in Model.NetworksOptions)
                 {
-                    selected = "selected";
+                    string selected = "";
+                    if (networks.NetworksID == Model.SelectedToken.NetworksID)
+                    {
+                        selected = "selected";
+                    }
+                    <option value="@networks.NetworksID" @selected>@networks.NetworksName</option>
+
                 }
-                <option value="@networks.NetworksID" @selected>@networks.NetworksName</option>
+            </select>
+        </div>
+        <div id="text-box">
+            <label>Description:</label>
+            <textarea name="TokenDescription" cols="30" rows="12" class="field-container__input-box">@Model.SelectedToken.TokenDescription</textarea>
+            <div><input type="submit" value="Update Token" /></div>
+        </div>
+    </form>
 
-            }
-        </select>
-    </div>
-    <div>
-        <input type="submit" value="Update Token" />
+</div>
 
-    </div>
-</form>

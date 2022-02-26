@@ -93,6 +93,7 @@ namespace CryptopediaWebApp.Controllers
         /// FORM DATA: Networks JSON Object
         [ResponseType(typeof(void))]
         [HttpPost]
+        [Authorize]
         public IHttpActionResult UpdateNetworks(int id, Networks Networks)
         {
             if (!ModelState.IsValid)
@@ -142,6 +143,7 @@ namespace CryptopediaWebApp.Controllers
         /// </example>
         [ResponseType(typeof(Networks))]
         [HttpPost]
+        [Authorize]
         public IHttpActionResult AddNetworks(Networks Networks)
         {
             if (!ModelState.IsValid)
@@ -170,6 +172,7 @@ namespace CryptopediaWebApp.Controllers
         /// </example>
         [ResponseType(typeof(Networks))]
         [HttpPost]
+        [Authorize]
         public IHttpActionResult DeleteNetworks(int id)
         {
             Networks Networks = db.Networks.Find(id);

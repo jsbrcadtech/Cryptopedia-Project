@@ -1,0 +1,16 @@
+﻿/******* Form styles*******/
+
+#text-box {
+    padding-left: 15%;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+.field-container{
+   padding-top:2%;
+
+}
+.field-container__input-box {
+    margin-left: 1%;
+    border-radius: 5px;
+    border: 1px solid black;
+}
