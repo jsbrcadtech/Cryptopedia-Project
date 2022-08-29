@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -26,7 +26,17 @@ namespace CryptopediaWebApp.Controllers
             };
 
             client = new HttpClient(handler);
-            client.BaseAddress = new Uri("https://localhost:44311/api/");
+            //client.BaseAddress = new Uri("https://localhost:44311/api/");
+
+            //Host SmartASP.NET
+            //client.BaseAddress = new Uri("http://jsbrcad-001-site1.dtempurl.com/api/");
+            
+            
+            //Host Somee
+            client.BaseAddress = new Uri("http://cryptopedia.somee.com/api/");
+
+
+
         }
 
         /// <summary>
