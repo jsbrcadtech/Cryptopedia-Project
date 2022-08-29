@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -27,7 +27,15 @@ namespace CryptopediaWebApp.Controllers
             };
 
             client = new HttpClient(handler);
-            client.BaseAddress = new Uri("https://localhost:44311/api/");
+            //client.BaseAddress = new Uri("https://localhost:44311/api/");
+
+            //client.BaseAddress = new Uri("http://jsbrcad-001-site1.dtempurl.com/api/");
+
+            //Host Somee
+            client.BaseAddress = new Uri("http://cryptopedia.somee.com/api/");
+
+
+
         }
 
         /// <summary>
@@ -77,7 +85,7 @@ namespace CryptopediaWebApp.Controllers
 
             DetailsToken ViewModel = new DetailsToken();
 
-            string url = "tokendata/findtoken/"+id;
+            string url = "tokendata/findtoken/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
 
             //Debug.WriteLine("The response is");
@@ -100,13 +108,15 @@ namespace CryptopediaWebApp.Controllers
         // GET: Token/New
         public ActionResult New()
         {
-            //Information about all networks in the system.
-            //Get api/networksdata/listnetworks
+            UpdateToken ViewModel = new UpdateToken();
+
+
             string url = "networksdata/listnetworks";
             HttpResponseMessage response = client.GetAsync(url).Result;
             IEnumerable<NetworksDto> NetworksOptions = response.Content.ReadAsAsync<IEnumerable<NetworksDto>>().Result;
 
-            return View(NetworksOptions);
+            ViewModel.NetworksOptions = NetworksOptions;
+            return View(ViewModel);
         }
 
         // POST: Token/Create
@@ -118,11 +128,13 @@ namespace CryptopediaWebApp.Controllers
             //Debug.WriteLine("the jsonpayload is:");
             //Debug.WriteLine(token.TokenName);
             //Objective: Add a new token into the system using the API 
-            //curl -H "Content-Type:application/json" -d @token.json https://localhost:44311/api/tokendata/addtoken
+
             string url = "tokendata/addtoken";
 
+
+
             string jsonpayload = jss.Serialize(token);
-            Debug.WriteLine(jsonpayload);
+            //Debug.WriteLine(jsonpayload);
 
             HttpContent content = new StringContent(jsonpayload);
             content.Headers.ContentType.MediaType = "application/json";
@@ -146,18 +158,16 @@ namespace CryptopediaWebApp.Controllers
         {
             UpdateToken ViewModel = new UpdateToken();
 
-            //the existing Token information
             string url = "tokendata/findtoken/" + id;
             HttpResponseMessage response = client.GetAsync(url).Result;
             TokenDto SelectedToken = response.Content.ReadAsAsync<TokenDto>().Result;
             ViewModel.SelectedToken = SelectedToken;
 
-            // all networks to choose from when updating this animal
+            // all networks to choose from when updating this token
             //the existing token information
             url = "networksdata/listnetworks/";
             response = client.GetAsync(url).Result;
             IEnumerable<NetworksDto> NetworksOptions = response.Content.ReadAsAsync<IEnumerable<NetworksDto>>().Result;
-
             ViewModel.NetworksOptions = NetworksOptions;
 
             return View(ViewModel);
